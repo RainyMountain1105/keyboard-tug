@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#090d16">
+  <title>键区拔河 · 网页双人翻牌对战</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+  <script src="core.js?v=6" defer></script>
+  <script src="versus-client.js?v=2" defer></script>
+</head>
+<body class="versus-body">
+  <main class="app versus-app">
+    <header class="hud">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>键区拔河</h1>
+          <p>网页双人 · 翻牌对战</p>
+        </div>
+      </div>
+
+      <section class="meters">
+        <div class="tug-cluster" aria-label="键位归属比分">
+          <div class="tug-heading">
+            <span id="greenBadge" class="team-badge player">绿方</span>
+            <strong id="tugScoreText">13 : 13</strong>
+            <span id="redBadge" class="team-badge bot">红方</span>
+          </div>
+          <div class="tug-track">
+            <div id="tugPlayerFill" class="tug-fill"></div>
+            <span class="tug-mid" aria-hidden="true"></span>
+          </div>
+          <p>按字母键或点按键格翻牌：红变绿，绿变红</p>
+        </div>
+
+        <div class="scoreboard" aria-label="积分与剩余时间">
+          <div class="score-cell player">
+            <span>绿方积分</span>
+            <strong id="greenScoreText">0</strong>
+          </div>
+          <div class="score-cell timer">
+            <span>剩余</span>
+            <strong id="vsTimeText">60</strong>
+            <small>秒</small>
+          </div>
+          <div class="score-cell bot">
+            <span>红方积分</span>
+            <strong id="redScoreText">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="combat-stats" aria-label="对战信息">
+        <div class="stat">
+          <span>我的翻绿</span>
+          <strong id="flipsText">0</strong>
+        </div>
+        <div class="stat">
+          <span>对手翻绿</span>
+          <strong id="opponentFlipsText">0</strong>
+        </div>
+        <div class="stat">
+          <span>失误</span>
+          <strong id="mistakesText">0</strong>
+        </div>
+      </section>
+    </header>
+
+    <section id="gameShell" class="game-shell">
+      <canvas id="gameCanvas" tabindex="0" aria-label="双人翻牌拔河键区，可点按键格或按实体字母键"></canvas>
+
+      <div id="announcement" class="announcement" aria-live="polite"></div>
+
+      <div id="overlay" class="overlay">
+        <section class="overlay-card">
+          <p id="overlayEyebrow" class="eyebrow">网页双人 · 无需安装</p>
+          <h2 id="overlayTitle">叫上朋友，抢下整片键区。</h2>
+          <p id="overlayDescription" class="overlay-description">
+            创建房间后，把四位房间码或链接发给一位朋友。按下字母键翻牌：红变绿，绿变红；
+            每秒按双方键数结算积分，60 秒后积分高者获胜，提前清一色则立即获胜。
+          </p>
+
+          <div id="roomPanel" class="room-panel">
+            <button id="createButton" class="primary-button" type="button">创建双人房间</button>
+            <div class="join-divider"><span>或输入房间码加入</span></div>
+            <div class="join-row">
+              <input id="roomInput" class="room-input" type="text" maxlength="4" autocomplete="off"
+                autocapitalize="characters" spellcheck="false" inputmode="text" placeholder="ABCD" aria-label="四位房间码">
+              <button id="joinButton" class="secondary-button" type="button">加入房间</button>
+            </div>
+          </div>
+
+          <div id="waitingPanel" class="waiting-panel" hidden>
+            <span>房间码</span>
+            <strong id="roomCodeText">----</strong>
+            <p>等待另一位玩家加入，链接已准备好：</p>
+            <div class="share-row">
+              <input id="shareLink" type="text" readonly aria-label="房间分享链接">
+              <button id="copyButton" class="secondary-button" type="button">复制</button>
+            </div>
+          </div>
+
+          <div id="resultStats" class="result-stats" hidden></div>
+          <button id="restartButton" class="primary-button" type="button" hidden>再来一局</button>
+          <p id="formError" class="form-error" role="alert"></p>
+          <p class="overlay-footnote">
+            电脑按 A～Z · 手机直接点键格 · 翻牌积分制，60 秒或清一色结束 ·
+            <a href="./">返回单机模式</a>
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer-bar">
+      <div class="control-hints">
+        <span id="connectionStatus" class="connection-status"><i></i>未连接</span>
+        <span id="roomStatus">尚未进入房间</span>
+      </div>
+      <div class="accuracy-block">
+        <span>当前连击 <strong id="streakText">0</strong></span>
+        <span>最佳连击 <strong id="bestStreakText">0</strong></span>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d16">
+  <title>键区拔河 · 翻牌对抗 Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="core.js?v=5" defer></script>
+  <script src="game.js?v=5" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="hud">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>键区拔河</h1>
+          <p>翻牌对抗 · <span id="difficultyText">普通</span>难度</p>
+        </div>
+      </div>
+
+      <section class="meters">
+        <div class="tug-cluster" aria-label="键位归属比分">
+          <div class="tug-heading">
+            <span class="team-badge player">你 · 绿</span>
+            <strong id="tugScoreText">13 : 13</strong>
+            <span class="team-badge bot">红 · Bot</span>
+          </div>
+          <div class="tug-track">
+            <div id="tugPlayerFill" class="tug-fill"></div>
+            <span class="tug-mid" aria-hidden="true"></span>
+          </div>
+          <p>点一下翻一张牌：红变绿，绿变红</p>
+        </div>
+
+        <div class="scoreboard" aria-label="积分与剩余时间">
+          <div class="score-cell player">
+            <span>你的积分</span>
+            <strong id="playerScoreText">0</strong>
+          </div>
+          <div class="score-cell timer">
+            <span>剩余</span>
+            <strong id="timeText">60</strong>
+            <small>秒</small>
+          </div>
+          <div class="score-cell bot">
+            <span>Bot 积分</span>
+            <strong id="botScoreText">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="combat-stats" aria-label="战斗信息">
+        <div class="stat">
+          <span>翻绿</span>
+          <strong id="flipsText">0</strong>
+        </div>
+        <div class="stat">
+          <span>失误</span>
+          <strong id="mistakesText">0</strong>
+        </div>
+        <div class="stat">
+          <span>被夺回</span>
+          <strong id="lostText">0</strong>
+        </div>
+      </section>
+    </header>
+
+    <section id="gameShell" class="game-shell">
+      <canvas id="gameCanvas" aria-label="三排键盘翻牌战场，按字母键翻转对应键格的颜色"></canvas>
+
+      <div id="announcement" class="announcement" aria-live="polite"></div>
+
+      <div id="overlay" class="overlay">
+        <section class="overlay-card">
+          <p id="overlayEyebrow" class="eyebrow">翻牌拔河 · 可玩原型</p>
+          <h2 id="overlayTitle">26 张牌，两种颜色。</h2>
+          <p id="overlayDescription" class="overlay-description">
+            开局随机 13 个键归你（绿），13 个键归 Bot（红）。按下任意字母键翻牌：
+            红变绿，绿变红。每秒按双方的键数结算积分，60 秒后积分高者获胜；
+            提前把所有键翻成同一颜色则立即获胜。
+          </p>
+          <div id="difficultyPicker" class="difficulty-picker" role="group" aria-label="选择难度">
+            <span class="difficulty-label">难度</span>
+            <div class="difficulty-options">
+              <button class="difficulty-option" type="button" data-difficulty="easy">
+                <strong>简单</strong>
+                <small>Bot 更慢</small>
+              </button>
+              <button class="difficulty-option is-active" type="button" data-difficulty="normal">
+                <strong>普通</strong>
+                <small>当前标准</small>
+              </button>
+              <button class="difficulty-option" type="button" data-difficulty="hard">
+                <strong>困难</strong>
+                <small>Bot 更快</small>
+              </button>
+            </div>
+          </div>
+          <div id="instructions" class="instructions">
+            <div><kbd>A</kbd><kbd>Z</kbd><span>按字母键翻牌，把红色键翻成绿色</span></div>
+            <div><span class="rule-minus">绿→红</span><span>误按自己的绿键，会把它翻回红色</span></div>
+            <div><span class="rule-shield">每秒</span><span>按当前键数结算积分，共 60 秒</span></div>
+          </div>
+          <div id="resultStats" class="result-stats" hidden></div>
+          <button id="startButton" class="primary-button" type="button">
+            <span id="startButtonText">开始翻牌</span>
+            <kbd>回车</kbd>
+          </button>
+          <p class="overlay-footnote">按 1 / 2 / 3 切换难度 · Bot 会自动翻牌 · 实体 QWERTY 键盘 · Esc 暂停</p>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer-bar">
+      <div class="control-hints">
+        <span><kbd>A～Z</kbd> 翻牌</span>
+        <span><kbd>Esc</kbd> 暂停</span>
+        <span>Bot 节奏 <strong id="botPaceText">0.55 秒/键</strong></span>
+      </div>
+      <div class="accuracy-block">
+        <span>当前连击 <strong id="streakText">0</strong></span>
+        <span>最佳连击 <strong id="bestStreakText">0</strong></span>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

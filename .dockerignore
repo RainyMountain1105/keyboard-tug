@@ -1,0 +1,11 @@
+node_modules
+.git
+.gitignore
+.screenshots
+.trae-html-share-packages
+.trae
+tests
+deploy.ps1
+*.log
+Dockerfile
+.dockerignore
